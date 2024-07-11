@@ -30,19 +30,22 @@ tpwEl.innerText = data.avgTabs;
   });
 });
 
-// document.getElementById("close-search").addEventListener("click", async () => {
-//   const tabs = await browser.tabs.query({url: ["*://kagi.com/search*", "*://www.google.com/search*"]});
-//   const length = tabs.length;
-//   for (const tab of tabs) {
-//     browser.tabs.remove(tab.id);
-//   }
-//   alert(`Closed ${length} search tabs`);
-// });
-// document.getElementById("close-docs").addEventListener("click", async () => {
-//   const tabs = await browser.tabs.query({url: ["*://developer.mozilla.org/*", "*://developer.chrome.com/*"]});
-//   const length = tabs.length;
-//   for (const tab of tabs) {
-//     browser.tabs.remove(tab.id);
-//   }
-//   alert(`Closed ${length} documentation tabs`);
-// });
+document.getElementById("big-red").addEventListener("click", async () => {
+  if (!window.confirm("Are you sure?")) return;
+
+  // const tabs = await browser.tabs.query({});
+  const windows = await browser.windows.getAll({populate: true});
+  for (const window of windows) {
+    if (!window.tabs.find(tab => tab.pinned)) {
+      // No pinned tabs, nuke it
+      browser.windows.remove(window.id);
+    } else {
+      // At least one tab is pinned, close the unpinned tabs one by one
+      for (const tab of window.tabs) {
+        if (!tab.pinned) {
+          browser.tabs.remove(tab.id);
+        }
+      }
+    }
+  }
+});

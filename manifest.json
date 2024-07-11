@@ -1,0 +1,20 @@
+{
+  "name": "Tab Overload",
+  "author": "Simeon Vincent",
+  "version": "2024.07.11.0",
+  "manifest_version": 3,
+  "action": {},
+  "background": {
+    "page": "bg.html",
+    "type": "module",
+    "service_worker": "background.js"
+  },
+  "sidebar_action": {
+    "default_panel": "page.html",
+    "open_at_install": false
+  },
+  "permissions": [
+    "commands",
+    "tabs"
+  ]
+}
